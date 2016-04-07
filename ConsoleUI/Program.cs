@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.Task2;
+using Logic.Task1;
 
 namespace ConsoleUI
 {
@@ -160,7 +161,7 @@ namespace ConsoleUI
             {
                 BinaryTree<Point> pointRoot1 = new BinaryTree<Point>();
             }
-            catch(ArgumentException e)
+            catch (ArgumentException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -189,9 +190,23 @@ namespace ConsoleUI
 
             #endregion
 
+            #region Matrix ElementChangedEvent
+
+            SquareMatrix<int> matrix = new SquareMatrix<int>(new int[3][] { new int[3] { 1, 2, 3 }, new int[3] { 2, 3, 4 }, new int[3] { 3, 4, 5 } });
+
+            matrix.OnElementChanged += OnChange<int>;
+
+            matrix[1, 2] = 5;
+
+            #endregion
+
             Console.ReadKey();
         }
 
+        static void OnChange<T>(object sender, ElementChangedArgs e)
+        {
+            Console.WriteLine("element was changed at {0}, {1} and has value {2}", e.I, e.J, (sender as SquareMatrix<T>)[e.I, e.J]);
+        }
         static int ComparisonMethod(int x, int y)
         {
             if (Math.Abs(x) > Math.Abs(y))
